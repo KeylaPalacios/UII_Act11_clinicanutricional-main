@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}{{ paciente.nombre }} | Baby Carrots{% endblock %}
+
+{% block contenido %}
+<article class="patient-detail" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+
+    <!-- Información principal del paciente -->
+    <div class="patient-banner" style="flex: 2; min-width: 300px;">
+        {% if paciente.foto %}
+            <img src="{{ paciente.foto.url }}" alt="Imagen de {{ paciente.nombre }}" class="detail-photo">
+        {% else %}
+            <img src="{% static placeholder %}" alt="Imagen de {{ paciente.nombre }}" class="detail-photo">
+        {% endif %}
+
+        <div class="patient-info">
+            <h1>{{ paciente.nombre }} {{ paciente.apellido }}</h1>
+            <p>📞 {{ paciente.telefono }}</p>
+            <p>🎂 {{ paciente.fechanacimiento }}</p>
+            <p>📧 {{ paciente.correo }}</p>
+        </div>
+
+        <div class="detail-actions">
+            <a href="{% url 'app_pacientes:editar_paciente' paciente.id %}" class="btn btn-secondary">✏️ Editar Paciente</a>
+            <a href="{% url 'app_pacientes:borrar_paciente' paciente.id %}" class="btn btn-danger">🗑️ Borrar Paciente</a>
+        </div>
+    </div>
+
+    <!-- Recuadro de cita (si tiene o no tiene) -->
+    <div class="appointments-box" style="flex: 1; min-width: 250px; background: #f7fafc; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <h2>Cita del Paciente</h2>
+        {% if paciente.citas.exists %}
+            {% with cita=paciente.citas.all.0 %}
+            <p>📅 Fecha: {{ cita.fecha }}</p>
+            <p>🕒 Horario: {{ cita.horario }}</p>
+            <p>📌 Motivo: {{ cita.motivo }}</p>
+            <p>📋 Estado: {{ cita.estado }}</p>
+            {% if cita.observaciones %}
+                <p>📝 Observaciones: {{ cita.observaciones }}</p>
+            {% endif %}
+            {% endwith %}
+        {% else %}
+            <p style="font-style: italic; color: #666;">No tiene citas registradas.</p>
+        {% endif %}
+    </div>
+
+</article>
+{% endblock %}

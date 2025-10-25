@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{{ titulo }} | Baby Carrots{% endblock %}
+
+{% block contenido %}
+<h2>{{ titulo }}</h2>
+<form method="post" class="form-styled">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions">
+        <button type="submit" class="btn btn-primary">Guardar cita</button>
+        <a href="{% url 'app_pacientes:detalle_paciente' paciente.id %}" class="btn">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

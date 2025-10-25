@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Baby Carrots{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="main-header">
+            <h1><a href="{% url 'app_pacientes:listar_pacientes' %}">🥕 Baby Carrots</a></h1>
+            <nav class="main-nav">
+                <a href="{% url 'app_pacientes:listar_pacientes' %}">👩‍⚕️ Pacientes</a>
+                <a href="{% url 'app_pacientes:crear_paciente' %}">➕ Nuevo</a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            {% block contenido %}{% endblock %}
+        </main>
+
+        <footer class="main-footer">
+            <p>© 2025 Baby Carrots - Clínica Nutricional</p>
+        </footer>
+    </div>
+</body>
+</html>

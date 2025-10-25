@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Pacientes | Baby Carrots{% endblock %}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Pacientes Registrados</h2>
+    <a href="{% url 'app_pacientes:crear_paciente' %}" class="btn btn-primary">+ Agregar Paciente</a>
+</div>
+
+<ul class="patient-grid">
+    {% for paciente in pacientes %}
+    <li class="patient-card">
+        <a href="{% url 'app_pacientes:detalle_paciente' paciente.id %}">
+            {% if paciente.foto %}
+                <img src="{{ paciente.foto.url }}" alt="Imagen de {{ paciente.nombre }}" class="patient-img">
+            {% else %}
+                {% if forloop.counter == 1 %}
+                    <img src="{% static 'img/pac.jpg' %}" alt="Imagen de {{ paciente.nombre }}" class="patient-img">
+                {% elif forloop.counter == 2 %}
+                    <img src="{% static 'img/pac2.jpg' %}" alt="Imagen de {{ paciente.nombre }}" class="patient-img">
+                {% elif forloop.counter == 3 %}
+                    <img src="{% static 'img/pac3.jpg' %}" alt="Imagen de {{ paciente.nombre }}" class="patient-img">
+                {% else %}
+                    <img src="{% static 'img/pac.jpg' %}" alt="Imagen de {{ paciente.nombre }}" class="patient-img">
+                {% endif %}
+            {% endif %}
+
+            <h3>{{ paciente.nombre }} {{ paciente.apellido }}</h3>
+            <p class="patient-phone">📞 {{ paciente.telefono }}</p>
+            <p class="patient-birth">🎂 {{ paciente.fechanacimiento }}</p>
+            <p class="patient-email">📧 {{ paciente.correo }}</p>
+        </a>
+    </li>
+    {% empty %}
+    <li class="no-patients">No hay pacientes registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
